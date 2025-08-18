@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# Gunakan perintah berikut dibawah ini di terminal ubuntu 22.04 anda tanpa tanda kutip
-# "curl -sSL https://raw.githubusercontent.com/ucokkarnadi/corat-coret/master/dnsdist-ubuntu.sh | bash" 
+# Install dnsdist version 2.0.0
+# echo "$(curl -sSL https://raw.githubusercontent.com/jorelart/powerdns-dnsdist/main/dnsdist.sh)" > install.sh
+# chmod +x install.sh && ./install.sh
 
 echo "deb [signed-by=/etc/apt/keyrings/dnsdist-20-pub.asc] http://repo.powerdns.com/ubuntu noble-dnsdist-20 main" > /etc/apt/sources.list.d/pdns.list
 echo "Package: dnsdist*
 Pin: origin repo.powerdns.com
 Pin-Priority: 600" > /etc/apt/preferences.d/dnsdist-18
 sudo install -d /etc/apt/keyrings; curl https://repo.powerdns.com/FD380FBB-pub.asc | sudo tee /etc/apt/keyrings/dnsdist-20-pub.asc &&
-sudo apt update &&
-sudo apt install dnsdist
+sudo apt update -y
 
-
+echo "CHANGING DNS SERVER..."
 service systemd-resolved stop
 systemctl disable systemd-resolved
 rm -rf /etc/resolv.conf
@@ -21,8 +21,12 @@ nameserver 103.80.80.244
 " > /etc/resolv.conf
 
 
-apt install -y dnsdist net-tools
+echo "INSTALLING DNSDIST VERSION 2.0 ..."
+apt install -y dnsdist
+
 service dnsdist stop
+
+echo "CREATING NEW CONFIGURATION..."
 
 echo '-- Config untuk DNSDIST Mitra JSN 
 addACL("0.0.0.0/0")
@@ -164,5 +168,8 @@ addAction( SuffixMatchNodeRule(smndom, true), SpoofAction({"127.0.0.1", "::1"}))
 
 ' > /etc/dnsdist/dnsdist.conf
 
+echo "STARTING DNSDIST SERVICE..."
 service dnsdist start
-netstat -tupln
+
+
+ss -tupln
