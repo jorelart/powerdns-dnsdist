@@ -4,7 +4,7 @@
 # echo "$(curl -sSL https://raw.githubusercontent.com/jorelart/powerdns-dnsdist/main/dnsdist.sh)" > install.sh
 # chmod +x install.sh && ./install.sh
 
-echo "deb [signed-by=/etc/apt/keyrings/dnsdist-20-pub.asc] http://repo.powerdns.com/ubuntu noble-dnsdist-20 main" > /etc/apt/sources.list.d/pdns.list
+echo "deb [signed-by=/etc/apt/keyrings/dnsdist-20-pub.asc] http://repo.powerdns.com/ubuntu jammy-dnsdist-20 main" > /etc/apt/sources.list.d/pdns.list
 echo "Package: dnsdist*
 Pin: origin repo.powerdns.com
 Pin-Priority: 600" > /etc/apt/preferences.d/dnsdist-20
