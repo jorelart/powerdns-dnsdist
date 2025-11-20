@@ -11,15 +11,6 @@ Pin-Priority: 600" > /etc/apt/preferences.d/dnsdist-20
 sudo install -d /etc/apt/keyrings; curl https://repo.powerdns.com/FD380FBB-pub.asc | sudo tee /etc/apt/keyrings/dnsdist-20-pub.asc &&
 sudo apt update -y
 
-echo "CHANGING DNS SERVER..."
-service systemd-resolved stop
-systemctl disable systemd-resolved
-rm -rf /etc/resolv.conf
-echo "search jsn.net.id
-nameserver 103.80.80.243
-nameserver 103.80.80.244
-" > /etc/resolv.conf
-
 
 echo "INSTALLING DNSDIST VERSION 2.0 ..."
 apt install -y dnsdist
@@ -171,5 +162,13 @@ addAction( SuffixMatchNodeRule(smndom, true), SpoofAction({"127.0.0.1", "::1"}))
 echo "STARTING DNSDIST SERVICE..."
 service dnsdist start
 
+echo "CHANGING DNS SERVER..."
+service systemd-resolved stop
+systemctl disable systemd-resolved
+rm -rf /etc/resolv.conf
+echo "search jsn.net.id
+nameserver 103.80.80.243
+nameserver 103.80.80.244
+" > /etc/resolv.conf
 
 ss -tupln
